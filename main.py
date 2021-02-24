@@ -34,11 +34,14 @@ for i in range(26):
 
 #fonts
 LETTER_FONTS = pygame.font.SysFont("ink free", 28)
-WORD_FONTS = pygame.font.SysFont("Comic Sans MS", 40)
+WORD_FONTS = pygame.font.SysFont("Comic Sans MS", 35)
 
 #Game variables
 hangmanStatus = 0
-word = random.choice(open("Words.txt").read().split())
+words = open("Words.txt").read().split()
+for i in range (len(words)):
+    words[i] = words[i].upper()
+word = random.choice(words)
 guessed = []
 
 def draw():
@@ -91,6 +94,7 @@ while run:
             won = False
             break
     if won:
+        pygame.time.delay(1000)
         screen.fill((255,255,255))
         text = WORD_FONTS.render("You WON!!!", 1, (0, 0, 0))
         screen.blit(text, (WIDTH/2 - text.get_width()/2, HEIGHT/2 - text.get_height()/2))
@@ -99,9 +103,12 @@ while run:
         break
 
     if hangmanStatus == 6:
+        pygame.time.delay(1000)
         screen.fill((255,255,255))
         text = WORD_FONTS.render("You Lost!!!", 1, (0, 0, 0))
         screen.blit(text, (WIDTH/2 - text.get_width()/2, HEIGHT/2 - text.get_height()/2))
+        pokemon = WORD_FONTS.render("Correct Pokemon : " + word, 1, (0, 0, 0))
+        screen.blit(pokemon, (WIDTH/2 - pokemon.get_width()/2, HEIGHT/2 - pokemon.get_height()/2 + 50))
         pygame.display.update()
         pygame.time.delay(3000)
         break 
